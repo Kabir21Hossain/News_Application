@@ -48,7 +48,7 @@ const NewsDetailPage = async ({ params }) => {
                         <h2 className="flex items-center gap-2"><CiStar />{news?.rating.number}</h2>
                         <p className="flex items-center gap-2"><FaEye />{news.total_view}</p>
                     </div>
-                    <Link href={`/category/${news.category_id}`}><button className="btn btn-primary">See other from this category</button></Link>
+                    <Link href={`/category/${news.category_id}`}><button className="btn btn-primary">See other news from this category</button></Link>
 
                 </div>
 
