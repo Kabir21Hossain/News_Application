@@ -16,7 +16,7 @@ export default function NewsCard({ news }) {
                         {/* author image */}
                         <Image
                             src={news?.author?.img}
-                            alt={news.author?.name}
+                            alt={news?.author?.name}
                             width={40}
                             height={40}
                             className="rounded-full" />

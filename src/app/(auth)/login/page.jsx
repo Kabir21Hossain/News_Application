@@ -1,21 +1,44 @@
 'use client'
+import { authClient } from "@/lib/auth-client";
+import { router } from "better-auth/api";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 const LoginPage = () => {
+
+    const [isShowPassword, setIsShowPassword] = useState(false);
+
+
 
     const { register,
         handleSubmit,
         watch,
         formState: { errors } } = useForm();
 
-    const handleLoginFunc = (data) => {
-        console.log(data);
+    const handleLoginFunc = async (data) => {
+        const { email, password } = data;
+
+        const { data: res, error } = await authClient.signIn.email({
+            email: email,
+            password: password,
+            callbackURL: "/",
+        });
+
+        console.log(res, error)
+
+        if (error) {
+            alert(error.message);
+        }
+        else {
+            alert("Login successful");
+
+        }
 
     }
 
-    console.log(watch('password'));
-    console.log(watch('email'));
-    console.log(errors);
+    // console.log(watch('password'));
+    // console.log(watch('email'));
+    // console.log(errors);
 
 
 
@@ -36,13 +59,21 @@ const LoginPage = () => {
 
                         {errors.email && <span className="text-red-500">Email is required</span>}
 
-                        <label className="label">Password</label>
-                        <input type="password"
-                            className="input"
-                            placeholder="Password"
-                            {...register("password", { required: true })} />
+                        <div className="relative">
+                            <label className="label">Password</label>
+                            <input type={isShowPassword ? "text" : 'password'}
+                                className="input"
+                                placeholder="Password"
+                                {...register("password", { required: true })} />
 
-                        {errors.password && <span className="text-red-500">Password is required</span>}
+                            <span className=" absolute right-1 top-7" onClick={() => setIsShowPassword(!isShowPassword)}>
+
+                                {isShowPassword ? 'Hide' : 'Show'}
+                            </span>
+
+                            {errors.password && <span className="text-red-500">Password is required</span>}
+
+                        </div>
 
                         <button className="btn btn-neutral mt-4">Login</button>
                     </fieldset>
